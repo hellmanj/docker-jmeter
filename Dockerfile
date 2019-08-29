@@ -34,8 +34,9 @@ ENV PATH $PATH:$JMETER_BIN
 
 # Entrypoint has same signature as "jmeter" command
 COPY entrypoint.sh /
-COPY tests /var/tests
+COPY tests /var/local/tests
+RUN mkdir -p /var/log/jmeter
 
 WORKDIR	${JMETER_HOME}
 
-ENTRYPOINT ["/entrypoint.sh", "-n", "-t", "/var/tests/scenario.jmx", "-l", "/report.jtl", "-j", "results.log"]
+ENTRYPOINT ["/entrypoint.sh", "-n", "-t", "/var/local/tests/scenario.jmx", "-l", "/var/log/jmeter/report.jtl", "-j", "/var/log/jmeter/results.log"]
